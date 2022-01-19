@@ -48,6 +48,23 @@ for i in df_list:
     run_cmd = f"{i}.to_excel(writer, sheet_name='{i}')";exec(run_cmd)
 writer.save()
 
+"""
+UNZIP THE ZIP FILE ---
+"""
+zip_folder = os.listdir('Derrivative_histData/')
+zip_folder
+
+import zipfile
+def un_zipFiles(path):
+    files=os.listdir(path)
+    for file in files:
+        if file.endswith('.zip'):
+            filePath=path+'/'+file
+            zip_file = zipfile.ZipFile(filePath)
+            for names in zip_file.namelist():
+                zip_file.extract(names,path)
+            zip_file.close() 
+un_zipFiles('DTA/input_data/')
 
 
 
