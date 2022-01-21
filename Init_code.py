@@ -71,11 +71,10 @@ XLWINGS EXCEL CODE ---
 """
 import xlwings as xw # loading library
 
-wb = xw.Book()
-sht =  wb.sheets[0]
-
-sht.clear_contents()
-sht.range("A1").value = df
+wb = xw.Book()# creating new workbook
+sht =  wb.sheets[0]# initiating sheet-01 to write
+sht.clear_contents()# clear the content of sheet
+sht.range("A1").value = df# wrtting data frame on to sht sheet
   
   
  
