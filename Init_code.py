@@ -66,8 +66,16 @@ def un_zipFiles(path):
             zip_file.close() 
 un_zipFiles('DTA/input_data/')
 
+"""
+XLWINGS EXCEL CODE ---
+"""
+import xlwings as xw # loading library
 
+wb = xw.Book()
+sht =  wb.sheets[0]
 
+sht.clear_contents()
+sht.range("A1").value = df
   
   
  
