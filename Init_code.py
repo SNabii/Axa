@@ -66,6 +66,41 @@ def un_zipFiles(path):
             zip_file.close() 
 un_zipFiles('DTA/input_data/')
 
+
+"""
+TARGET ANALYSIS WITH SINGLE/MULTIPLE (CONCATENATE) VARIABLES
+"""
+
+def get_ConctargetAnalysis(data_seen,conc_cols,target):
+    
+    def concat_columns(temp_df,xlab):
+        columns = xlab #=['ncb','age_of_vehicle'] # grouping of 
+        columns_conc = ("|".join(columns))
+        temp_df[f'{columns_conc}_combi'] = temp_df[columns].astype(str).astype(str).apply('|'.join, axis=1)
+        return(temp_df)
+    
+    def rename_multiindex(qr):
+        level_one = qr.columns.get_level_values(0).astype(str)
+        level_two = qr.columns.get_level_values(1).astype(str)
+        qr.columns = level_one +'_'+ level_two
+        return(qr)
+    
+    #conc_cols = ['Experience','Source of Hire','Previous Industry','Age Bucket','Gender','Marital Status']
+    temp_df = concat_columns(data_seen,conc_cols)
+    col_list = temp_df.columns
+    icol  = col_list[-1]
+    ti =  temp_df.groupby([f'{icol}',f'{target}']).size().reset_index().rename(columns={0:'event'}).pivot(index=f'{icol}',columns=f'{target}')
+    ti = ti.reset_index()
+    ti = rename_multiindex(ti)
+    ti = ti.replace(np.nan,0)
+    ti['TOTPol'] =  ti['event_0'] + ti['event_1']
+    ti['event%'] = round((ti['event_1']/ti['TOTPol'])*100,2)
+    ti['nevent%'] = round((ti['event_0']/ti['TOTPol'])*100,2)
+    ti['cum_tot'] =  round((ti['TOTPol']/ti['TOTPol'].sum())*100,2)
+    return(ti)
+
+
+
 """
 XLWINGS EXCEL CODE ---
 """
