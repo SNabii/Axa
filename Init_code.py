@@ -111,5 +111,11 @@ sht =  wb.sheets[0]# initiating sheet-01 to write
 sht.clear_contents()# clear the content of sheet
 sht.range("A1").value = df# wrtting data frame on to sht sheet
   
-  
+"""
+Pivot Table Visualization 
+"""
+
+import pandas as pd
+from pivottablejs import pivot_ui
+pivot_ui(temp)
  
